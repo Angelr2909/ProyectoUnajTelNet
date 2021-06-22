@@ -1,132 +1,128 @@
 using System;
 using System.Collections;
 
-namespace EjemSupermercado
+namespace Telnet_Reynoso_Angel__COM2
 {
     class Program
     {
         static void Main(string[] args)
-
         {
             Empresa miempresa = new Empresa();
-  
-            string opcion;
-            bool boton = true;
+            Tecnico t1 = new Tecnico("Victor", 40347658, 1, "Lanus");
+            Tecnico t2 = new Tecnico("Martin", 33764847, 2, "Lomas");
+            Tecnico t3 = new Tecnico("Victor", 40347658, 3, "Avellaneda");
+            miempresa.altaTecnico(t1);
+            miempresa.altaTecnico(t2);
+            miempresa.altaTecnico(t3);
 
-            Console.WriteLine("Elija una opcion: \n 1) Agregar Cliente \n 2) Administracion de clientes \n 3) Agregar técnico  \n 4) Administracion de tecnicos \n 5) Consultas \n 6) Salir del Sistema");
+            int opcion;
+            bool boton = true;
+            Console.WriteLine("------------------------ \n Bienvenido a Telnet \n------------------------ \n");
+            Console.WriteLine("Elija una opcion: \n 1) Agregar Cliente \n 2) Agregar técnico \n 3) Administracion de clientes \n 4) Administracion de tecnicos \n 5) Consultas \n 6) Salir del Sistema");
             Console.Write("Opcion: ");
-            opcion = Console.ReadLine();
+            opcion = ValidarDatos.Numero(6);
             Console.WriteLine();
-           
+
 
             while (boton)
             {
                 switch (opcion)
                 {
-                    case "1":
+                    case 1:
                         {
                             while (true)
                             {
                                 nuevocliente(ref miempresa);
-                                Console.WriteLine("Ingresar otro usuario? S/N");
-                                opcion = Console.ReadLine();
-                                if (opcion.ToLower() == "n")
-                                {break;}
+                                Console.WriteLine("Ingresar otro usuario? Pulse cualquier letra para seguir, N para salir");
+                                string op = Console.ReadLine();
+                                if (op.ToLower() == "n")
+                                { break; }
                             }
                             break;
                         }
-                    case "2":
-                        {
-                            string op;
-                            Console.WriteLine();
-                            Console.WriteLine("***** ADMINISTRACIÓN DE CLIENTES ***** \n\n 1) Modificar Plan y Precio de Cliente \n 2) Dar de baja Cliente \n ");
-                            Console.Write("Opción: "); op = Console.ReadLine();
-                            Console.WriteLine();
-                            if (op == "1")
-                            {
-                                Console.WriteLine("Ingrese nro Cliente: ");
-                                int nroc = int.Parse(Console.ReadLine());
-                                modificarPP(ref miempresa,nroc);
-                            }
-                            if (op == "2")
-                            {eliminarCliente(ref miempresa);}
-                            break;
-                        }
-                    case "3":
+                    case 2:
                         {
                             while (true)
                             {
                                 nuevoTecnico(ref miempresa);
-                                Console.WriteLine("Ingresar otro Técnico? S/N");
-                                opcion = Console.ReadLine();
-                                if (opcion.ToLower() == "n")
-                                {break;}
+                                Console.WriteLine("Ingresar otro Técnico? pulse culquier letra para seguir, N para salir");
+                                string op = Console.ReadLine();
+                                if (op.ToLower() == "n")
+                                { break; }
                             }
                             break;
                         }
-                    case "4":
+                    case 3:
                         {
-                            string op;
+                            int op;
                             Console.WriteLine();
-                            Console.WriteLine("\n***** ADMINISTRACIÓN DE TÉCNICOS ***** \n\n 1) Eliminar Técnico \n ");
-                            Console.Write("Opción: "); op = Console.ReadLine();
+                            Console.WriteLine("***** ADMINISTRACIÓN DE CLIENTES ***** \n\n 1) Modificar Plan y Precio de Cliente \n 2) Dar de baja Cliente \n ");
+                            Console.Write("Opción: "); op = ValidarDatos.Numero(2);
                             Console.WriteLine();
-
-                            if (op == "1")
-                            {eliminarTecnico(ref miempresa);                            }
+                            if (op == 1)
+                            {
+                                Console.WriteLine("Ingrese nro Cliente: ");
+                                int nroc = int.Parse(Console.ReadLine());
+                                modificarPP(ref miempresa, nroc);
+                            }
+                            if (op == 2)
+                            { eliminarCliente(ref miempresa); }
                             break;
                         }
-                    case "5":
+                    case 4:
                         {
-                            Console.WriteLine("1) Lista de Clientes \n2) Clientes Registrados \n3) Lista de tecnicos \n4) Total de Tecnicos Registrados");
+                            int op;
+                            Console.WriteLine();
+                            Console.WriteLine("\n***** ADMINISTRACIÓN DE TÉCNICOS ***** \n\n 1) Eliminar Técnico \n ");
+                            Console.Write("Opción: "); op = ValidarDatos.Numero(1);
+                            Console.WriteLine();
+
+                            if (op == 1)
+                            { eliminarTecnico(ref miempresa); }
+                            break;
+                        }
+                    case 5:
+                        {
+                            Console.WriteLine("\n1) Lista de Clientes \n2) Total Clientes Registrados \n3) Lista de tecnicos \n4) Total de Tecnicos Registrados");
                             Console.Write("Opcion: ");
-                            string op = Console.ReadLine();
+                            int op = ValidarDatos.Numero(4);
 
                             switch (op)
                             {
-                                case "1":
+                                case 1:
                                     {
                                         listadeclientes(ref miempresa);
                                         break;
                                     }
-                                case "2":
+                                case 2:
                                     {
-                                        Console.WriteLine($"Existen {miempresa.todoslosClientes()} Clientes registrados en el sistema");
+                                        Console.WriteLine($"\nExisten {miempresa.todoslosClientes().Count} Clientes registrados en el sistema\n");
                                         miempresa.todoslosClientes();
                                         break;
                                     }
-                                case "3":
+                                case 3:
                                     {
                                         listaTecnicos(ref miempresa);
                                         break;
                                     }
-                                case "4":
+                                case 4:
                                     {
-                                        Console.WriteLine($"Existen {miempresa.todosLosTecnicos()} Tecnicos Registrados en el sistema");
+                                        Console.WriteLine($"\nExisten {miempresa.todosLosTecnicos().Count} Tecnicos Registrados en el sistema\n");
                                         break;
                                     }
                             }
-
-                            if (op == "1")
-                            {
-
-                            }
-                            if (op == "2")
-                            {
- 
-                            }
                             break;
                         }
-                    case "6":
+                    case 6:
                         {
                             boton = false;
                             break;
                         }
                 }
-                Console.WriteLine("Elija una opcion: \n 1) Agregar Cliente \n 2) Administracion de clientes \n 3) Agregar técnico  \n 4) Administracion de tecnicos \n 5) Consultas \n 6) Salir del Sistema");
+                Console.WriteLine("\nElija una opcion: \n 1) Agregar Cliente \n 2) Agregar técnico \n 3) Administracion de clientes \n 4) Administracion de tecnicos \n 5) Consultas \n 6) Salir del Sistema");
                 Console.Write("Opcion: ");
-                opcion = Console.ReadLine();
-                if (opcion == "6")
+                opcion = ValidarDatos.Numero(6);
+                if (opcion == 6)
                 {
                     boton = false;
                 }
@@ -142,18 +138,18 @@ namespace EjemSupermercado
             DateTime fechaAlta;
             double precioPlan;
             Cliente nuevoCLiente;
-            Tecnico asociarTecnico; 
-  
+            Tecnico asociarTecnico;
+
             Console.Write("Ingrese Nombre de Cliente: "); nombCliente = Console.ReadLine();
-            Console.Write("Numero de cliente: "); numeroCliente = int.Parse(Console.ReadLine());
-            Console.Write("Ingrese DNI: "); dniCliente = int.Parse(Console.ReadLine());
-            Console.Write("Dia: "); dia = int.Parse(Console.ReadLine());
-            Console.Write("Mes: "); mes = int.Parse(Console.ReadLine());
-            Console.Write("Año: "); anio = int.Parse(Console.ReadLine());
+            Console.Write("Numero de cliente: "); numeroCliente = ValidarDatos.Numero();
+            Console.Write("Ingrese DNI: "); dniCliente = ValidarDatos.Numero();
+            Console.Write("Dia: "); dia = ValidarDatos.Numero();
+            Console.Write("Mes: "); mes = ValidarDatos.Numero();
+            Console.Write("Año: "); anio = ValidarDatos.Numero();
             fechaAlta = new DateTime(anio, mes, dia);
             Console.Write("Tipo de Plan: "); tipodePlan = Console.ReadLine();
-            Console.Write("Precio del Plan: $"); precioPlan = double.Parse(Console.ReadLine());
-            Console.Write("Ingrese Nro de tecnico para asociar: "); codTecnico = int.Parse(Console.ReadLine());
+            Console.Write("Precio del Plan: $"); precioPlan = ValidarDatos.NumeroDecimal();
+            Console.Write("Ingrese Nro de tecnico para asociar: "); codTecnico = ValidarDatos.Numero();
             asociarTecnico = new Tecnico(codTecnico);
 
             ArrayList listTecnico = new ArrayList(adicionCliente.todosLosTecnicos());
@@ -209,7 +205,7 @@ namespace EjemSupermercado
                         case "S":
                             {
                                 Console.Write("ingrese nuevo precio: $");
-                                double nprecio = double.Parse(Console.ReadLine());
+                                double nprecio = ValidarDatos.NumeroDecimal();
                                 Console.WriteLine("Nombre del nuevo plan: ");
                                 string nplan = Console.ReadLine();
                                 modCliente.PreciodePlan = nprecio;
@@ -227,16 +223,15 @@ namespace EjemSupermercado
                 }
             }
         }
-
         //MÉTODO DE LISTA DE CLIENTES
         static void listadeclientes(ref Empresa clientes)
         {
             ArrayList listaclientes;
-            listaclientes = new ArrayList (clientes.todoslosClientes());
+            listaclientes = new ArrayList(clientes.todoslosClientes());
             foreach (Cliente client in listaclientes)
             {
-                Console.WriteLine("----------------------");
-                Console.WriteLine( $"Cliente: {client.NombreCliente} \n " +
+                Console.WriteLine("\n----------------------");
+                Console.WriteLine($"Cliente: {client.NombreCliente} \n " +
                     $" Nro de Cliente: {client.NumeroCliente} \n" +
                     $"DNI: {client.DniCliente}\n" +
                     $"Fecha de alta: {client.FechaDeAlta}\n" +
@@ -245,24 +240,21 @@ namespace EjemSupermercado
                     $"Tecnico Asignado: {client.TecnicoAsignado}\n");
             }
         }
-
         //MÉTODO PARA INGRESAR NUEVO TÉCNICO
-        static void nuevoTecnico (ref Empresa adicionTecnico)
+        static void nuevoTecnico(ref Empresa adicionTecnico)
         {
             string nombTecnico, areaAsignada;
             int dniTecnico, nroTecnico;
             Tecnico nuevoTecnico;
 
             Console.Write("Nombre del Tecnico: "); nombTecnico = Console.ReadLine();
-            Console.Write("DNI: "); dniTecnico = int.Parse(Console.ReadLine());
-            Console.Write("Numero de tecnico: "); nroTecnico = int.Parse(Console.ReadLine());
+            Console.Write("DNI: "); dniTecnico = ValidarDatos.Numero();
+            Console.Write("Numero de tecnico: "); nroTecnico = ValidarDatos.Numero();
             Console.Write("Area Asignada: "); areaAsignada = Console.ReadLine();
 
-            nuevoTecnico = new Tecnico(nombTecnico,dniTecnico,nroTecnico,areaAsignada);
+            nuevoTecnico = new Tecnico(nombTecnico, dniTecnico, nroTecnico, areaAsignada);
             adicionTecnico.altaTecnico(nuevoTecnico);
         }
-
-
         //MÉTODO PARA VISUALIZAR LISTA DE TECNICOS
         static void listaTecnicos(ref Empresa listTecnico)
         {
@@ -270,17 +262,18 @@ namespace EjemSupermercado
             listaTec = listTecnico.todosLosTecnicos();
             foreach (Tecnico tec in listaTec)
             {
-                Console.Write($"Numero de Tecnico: {tec.NrodeTecnico}\n" +
-                    $"Tecnico: {tec.NombreDeTecnico}\n" +
+                Console.WriteLine("-----------------");
+                Console.Write($"Número de Tecnico: {tec.NrodeTecnico}\n" +
+                    $"Técnico: {tec.NombreDeTecnico}\n" +
                     $"DNI: {tec.DniTecnico}\n" +
                     $"Area Asignada: {tec.AreaAsignada}\n");
+
             }
         }
-
         //MÉTODO PARA ELIMINAR CLIENTE
         static void eliminarCliente(ref Empresa listaClientes)
         {
-            Console.WriteLine("Ingrese codigo de cliente: "); int codcliente = int.Parse(Console.ReadLine());
+            Console.WriteLine("Ingrese codigo de cliente: "); int codcliente = ValidarDatos.Numero();
 
             ArrayList listaclientes = new ArrayList(listaClientes.todoslosClientes());
             foreach (Cliente esbuscado in listaclientes)
@@ -294,11 +287,10 @@ namespace EjemSupermercado
                 }
             }
         }
-
         //MÉTODO PARA ELIMINAR TÉCNICO
         static void eliminarTecnico(ref Empresa tecnicos)
         {
-            Console.WriteLine("ingrese el Número del técnico a remover: "); int nrotecnico = int.Parse(Console.ReadLine());
+            Console.WriteLine("ingrese el Número del técnico a remover: "); int nrotecnico = ValidarDatos.Numero();
             ArrayList tecnicoscargados;
             tecnicoscargados = new ArrayList(tecnicos.todosLosTecnicos());
             foreach (Tecnico tecnicobuscado in tecnicoscargados)
@@ -312,9 +304,6 @@ namespace EjemSupermercado
             }
         }
     }
-
-
-
 
     class Empresa
     {
@@ -375,7 +364,7 @@ namespace EjemSupermercado
         }
 
     }
-    class Cliente: Empresa //DEFINE LA CLASE Cliente y hereda por el momento de Empresa
+    class Cliente : Empresa //DEFINE LA CLASE Cliente y hereda por el momento de Empresa
     {
         private string nombCliente, tipodePlan;
         Tecnico tecnicoAsignado;
@@ -433,7 +422,6 @@ namespace EjemSupermercado
             get { return tecnicoAsignado; }
         }
     }
-
     class Tecnico
     {
         //ATRIBUTOS DEL TECNICO
@@ -448,7 +436,7 @@ namespace EjemSupermercado
             this.nroTecnico = nroTecnico;
             this.areaAsignada = areaAsignada;
         }
-        public Tecnico (int nroTecnico)
+        public Tecnico(int nroTecnico)
         {
             this.nroTecnico = nroTecnico;
         }
@@ -471,6 +459,82 @@ namespace EjemSupermercado
         {
             set { areaAsignada = value; }
             get { return areaAsignada; }
+        }
+    }
+    class ValidarDatos
+    {
+        public static int Numero(int numopcion)
+        {
+            string pal;
+            int num;
+            pal = Console.ReadLine();
+            bool validacionExitosa = int.TryParse(pal, out num);
+            while (true)
+            {
+                if (validacionExitosa)
+                {
+                    if (num <= numopcion)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.Write("Opcion Incorrecta, intente nuevamente: \n opcion: ");
+                        pal = Console.ReadLine();
+                        validacionExitosa = int.TryParse(pal, out num);
+                    }
+
+                }
+                else
+                {
+                    Console.Write("Caracteres no validos, ingrese un valor númerico: ");
+                    pal = Console.ReadLine();
+                    validacionExitosa = int.TryParse(pal, out num);
+                }
+            }
+            return num;
+        }
+        public static int Numero()
+        {
+            string pal;
+            int num;
+            pal = Console.ReadLine();
+            bool validacionExitosa = int.TryParse( pal, out num );
+            while (true)
+            {
+                if (validacionExitosa)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Write("Entrada incorrecte, ingrese un valor númerico: ");
+                    pal = Console.ReadLine();
+                    validacionExitosa = int.TryParse(pal, out num);
+                }
+            }
+            return num;
+        }
+        public static double NumeroDecimal()
+        {
+            string pal;
+            double num;
+            pal = Console.ReadLine();
+            bool validacionExitosa = double.TryParse(pal, out num);
+            while (true)
+            {
+                if (validacionExitosa)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.Write("Entrada incorrecte, ingrese un valor númerico: ");
+                    pal = Console.ReadLine();
+                    validacionExitosa = double.TryParse(pal, out num);
+                }
+            }
+            return num;
         }
     }
 }
